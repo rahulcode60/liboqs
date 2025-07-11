@@ -141,13 +141,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
       
-      - name: Create random build folder
-        run: tmp_build=$(mktemp -d) && echo "RANDOM_BUILD_DIR=$tmp_build" >> $GITHUB_ENV
-      
-      - name: Configure minimal build
+      - name: Configure and build minimal liboqs
         run: |
+          # Create build directory
+          BUILD_DIR=$(mktemp -d)
+          echo "Created build directory: $BUILD_DIR"
+          
+          # Configure
           cmake \
-            -B ${{ env.RANDOM_BUILD_DIR }} \
+            -B "$BUILD_DIR" \
             -GNinja \
             -DOQS_STRICT_WARNINGS=ON \
             -DOQS_MINIMAL_BUILD="KEM_$KEM_NAME;SIG_$SIG_NAME" \
@@ -164,30 +166,29 @@ jobs:
           fi
           
           echo "✅ Configuration completed successfully"
-      
-      - name: Build minimal liboqs
-        run: ninja
-        working-directory: ${{ env.RANDOM_BUILD_DIR }}
-      
-      - name: Test minimal build
-        run: |
+          
+          # Build
+          ninja -C "$BUILD_DIR"
+          echo "✅ Build completed successfully"
+          
+          # Test the build
+          cd "$BUILD_DIR"
           echo "Testing minimal build functionality..."
           
           # Test that the algorithms we built actually work
           if [ -f "./tests/test_kem" ]; then
             echo "Testing KEM: $KEM_NAME"
-            ./tests/test_kem $KEM_NAME
+            ./tests/test_kem "$KEM_NAME"
             echo "✅ KEM test passed"
           fi
           
           if [ -f "./tests/test_sig" ]; then
             echo "Testing SIG: $SIG_NAME"  
-            ./tests/test_sig $SIG_NAME
+            ./tests/test_sig "$SIG_NAME"
             echo "✅ SIG test passed"
           fi
           
           echo "✅ Minimal build tests completed successfully"
-        working-directory: ${{ env.RANDOM_BUILD_DIR }}
 
   validate-workflow-dependencies:
     name: Validate workflow dependencies
@@ -277,4 +278,4 @@ jobs:
             exit 1
           else
             echo "🎉 **All validations passed successfully!**" >> $GITHUB_STEP_SUMMARY
-          fi# Test trigger Friday 11 July 2025 04:15:48 PM IST
+          fi
