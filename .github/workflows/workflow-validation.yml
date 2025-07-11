@@ -140,8 +140,8 @@ jobs:
     runs-on: ubuntu-latest
     container: openquantumsafe/ci-ubuntu-latest:latest
     env:
-      KEM_NAME: ML-KEM-768
-      SIG_NAME: ML-DSA-65 
+      KEM_NAME: ml_kem_768
+      SIG_NAME: ml_dsa_65
     steps:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
@@ -154,12 +154,12 @@ jobs:
           BUILD_DIR=$(mktemp -d)
           echo "Created build directory: $BUILD_DIR"
           
-          # Configure
+          # Configure with build identifiers
           cmake \
             -B "$BUILD_DIR" \
             -GNinja \
             -DOQS_STRICT_WARNINGS=ON \
-            -DOQS_MINIMAL_BUILD="KEM_$KEM_NAME;SIG_$SIG_NAME" \
+            -DOQS_MINIMAL_BUILD="KEM_$BUILD_KEM;SIG_$BUILD_SIG" \
             --warn-uninitialized . > config.log 2>&1
           
           # Show configuration output
