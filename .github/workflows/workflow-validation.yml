@@ -140,8 +140,8 @@ jobs:
     runs-on: ubuntu-latest
     container: openquantumsafe/ci-ubuntu-latest:latest
     env:
-      KEM_NAME: ml_kem_768
-      SIG_NAME: ml_dsa_65
+      KEM_NAME: ML-KEM-768
+      SIG_NAME: ML-DSA-65 
     steps:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
