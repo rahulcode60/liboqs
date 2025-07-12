@@ -79,6 +79,7 @@ jobs:
               - 'CMakeLists.txt'
             scripts:
               - 'scripts/**'
+            
       
       - name: Determine if code changes require full testing
         id: check
