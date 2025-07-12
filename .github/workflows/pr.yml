@@ -117,28 +117,29 @@ jobs:
     if: needs.detect-changes.outputs.any-code-changes == 'true'
     uses: ./.github/workflows/platforms.yml
 
-  # code-coverage:
-  #   name: Code coverage
-  #   needs: [detect-changes, basic-checks]
-  #   # Run coverage tests for core code and test changes
-  #   if: |
-  #     needs.detect-changes.outputs.core-code == 'true' ||
-  #     needs.detect-changes.outputs.tests == 'true'
-  #   uses: ./.github/workflows/code-coverage.yml
-  #   secrets: inherit
+  code-coverage:
+    name: Code coverage
+    needs: [detect-changes, basic-checks]
+    # Run coverage tests for core code and test changes
+    if: |
+      needs.detect-changes.outputs.core-code == 'true' ||
+      needs.detect-changes.outputs.tests == 'true'
+    uses: ./.github/workflows/code-coverage.yml
+    secrets: inherit
 
-  # scorecard:
-  #   name: Security scorecard
-  #   needs: [detect-changes, basic-checks]
-  #   # Run scorecard for workflow changes or security-related changes
-  #   if: |
-  #     needs.detect-changes.outputs.workflows == 'true' ||
-  #     needs.detect-changes.outputs.scripts == 'true'
-  #   uses: ./.github/workflows/scorecard.yml
-  #   secrets: inherit
-  #   permissions:
-  #     id-token: write
-  #     security-events: write
+  scorecard:
+    name: Security scorecard
+    needs: [detect-changes, basic-checks]
+    # Run scorecard for workflow changes or security-related changes
+    if: |
+      github.ref == 'refs/heads/main' &&
+      (needs.detect-changes.outputs.workflows == 'true' ||
+      needs.detect-changes.outputs.scripts == 'true')
+    uses: ./.github/workflows/scorecard.yml
+    secrets: inherit
+    permissions:
+      id-token: write
+      security-events: write
 
   workflow-validation:
     name: Workflow validation
