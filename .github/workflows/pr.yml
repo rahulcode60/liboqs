@@ -154,9 +154,14 @@ jobs:
     # Only run for documentation changes
     if: needs.detect-changes.outputs.docs == 'true'
     container: openquantumsafe/ci-ubuntu-latest:latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+        with:
+          fetch-depth: 0  # Get full git history
+      - name: Fix git permissions
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
       
       - name: Validate documentation generation
         run: |
