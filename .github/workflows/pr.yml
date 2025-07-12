@@ -76,7 +76,6 @@ jobs:
             workflows:
               - '.github/workflows/**'
             cmake:
-              - '.CMake/**'
               - 'CMakeLists.txt'
               - '**/CMakeLists.txt'
             scripts:
