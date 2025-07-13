@@ -4,22 +4,22 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - feature/new-ci-branch
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'CMakeLists.txt'
-      - 'scripts/**'
-      - 'docs/**'
-      - '*.md'
-      - '.github/workflows/basic.yml'
-      - '.github/workflows/platforms.yml'
-      - '.github/workflows/pr.yml'
-      - '.github/workflows/code-coverage.yml'
-      - '.github/workflows/scorecard.yml'
-      - '.github/workflows/workflow-validation.yml'
+  # push:
+  #   branches:
+  #     - feature/new-ci-branch
+  #   paths:
+  #     - 'src/**'
+  #     - 'tests/**'
+  #     - 'CMakeLists.txt'
+  #     - 'scripts/**'
+  #     - 'docs/**'
+  #     - '*.md'
+  #     - '.github/workflows/basic.yml'
+  #     - '.github/workflows/platforms.yml'
+  #     - '.github/workflows/pr.yml'
+  #     - '.github/workflows/code-coverage.yml'
+  #     - '.github/workflows/scorecard.yml'
+  #     - '.github/workflows/workflow-validation.yml'
   pull_request:
     # Only trigger on changes to relevant files
     paths:

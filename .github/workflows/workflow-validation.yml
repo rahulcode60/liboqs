@@ -4,11 +4,6 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - feature/new-ci-branch
-    paths:
-      - '.github/workflows/**'
   pull_request:
     paths:
       - '.github/workflows/**'
